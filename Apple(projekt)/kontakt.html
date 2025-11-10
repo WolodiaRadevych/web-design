@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <a href="index.html" class="back-button">← Powrót na stronę główną</a>
+   <div class="container">
+    <header>
+      <h1>Kontakt</h1>
+    </header>
+
+    <div class="card grid" role="region" aria-labelledby="contactHeading">
+
+      <section class="contact-info" aria-labelledby="contactHeading">
+        <h2 id="contactHeading">Dane kontaktowe</h2>
+        <p>Telefon: <a class="contact-link" href="tel:+48 518 895 043">+48 518 895 043</a></p>
+        <p>Email: <a class="contact-link" href="wolodia.radevych@poczta.fm">wolodia.radevych@poczta.fm</a></p>
+        <p class="note">
+          Możesz też wypełnić formularz po prawej stronie.
+        </p>
+      </section>
+
+      <section aria-labelledby="formHeading">
+        <h2 id="formHeading">Formularz kontaktowy</h2>
+
+        <!-- Formularz ustawiony jako nieaktywny -->
+        <form onsubmit="event.preventDefault();" novalidate>
+          <div>
+            <label for="user-email">Twój email</label>
+            <input id="user-email" type="email" placeholder="twoj@email.pl" aria-label="Twój email" />
+          </div>
+
+          <div>
+            <label for="message">Opisz pytanie lub problem</label>
+            <textarea id="message" placeholder="Napisz krótko, w czym możemy pomóc..." aria-label="Treść wiadomości"></textarea>
+          </div>
+
+          <div class="actions">
+            <button type="submit">Wyślij</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </div>   
+</body>
+</html>
