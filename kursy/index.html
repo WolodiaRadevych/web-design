@@ -18,5 +18,61 @@
         <a href="o-mnie.html" class="nav-button">O mnie</a>
         <a href="kontak.html" class="contact-button">Kontakt</a>
     </nav>
+
+    <!--  Stopka z zegarem i licznikiem -->
+    <footer class="footer">
+        <div class="clock"></div>
+        <div class="visit-counter"></div>
+        <p>Copyright &copy; 2025 Wolodia Radevych</p>
+    </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    //  Efekt hover na przycisku
+    const button = document.querySelector(".nav-button");
+    button.addEventListener('mouseenter', function() {
+        this.style.backgroundColor = "#009999";
+    });
+    button.addEventListener('mouseleave', function() {
+        this.style.backgroundColor = "";
+    });
+
+    //  Zegar w stopce
+    const footer = document.querySelector('.footer');
+    const clock = footer.querySelector('.clock');
+
+    function updateClock() {
+        const now = new Date();
+        const day = now.getDate().toString().padStart(2, '0');
+        const month = (now.getMonth() + 1).toString().padStart(2, '0');
+        const year = now.getFullYear();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const seconds = now.getSeconds().toString().padStart(2, '0');
+
+        clock.textContent = `Dziś jest: ${day}.${month}.${year}, godzina: ${hours}:${minutes}:${seconds}`;
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // 🔹 Licznik odwiedzin w localStorage
+    const visitCounter = document.querySelector('.visit-counter');
+    let visitCount = localStorage.getItem('visitCount');
+
+    if (visitCount === null) {
+        // Pierwsza wizyta
+        visitCount = 1;
+        visitCounter.textContent = "Witaj po raz pierwszy!";
+    } else {
+        visitCount = parseInt(visitCount) + 1;
+        visitCounter.textContent = `To jest Twoja ${visitCount} wizyta na tej stronie!`;
+    }
+
+    // Zapisz nową wartość w localStorage
+    localStorage.setItem('visitCount', visitCount);
+});
+</script>
 </body>
 </html>
