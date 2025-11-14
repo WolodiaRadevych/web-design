@@ -7,17 +7,44 @@
     <title>Home page</title>
 </head>
 <body>
+    <div id="container">
+    <div id="weather-widget" style="
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: rgba(255,255,255,0.7);
+    padding: 20px 15px;
+    border-radius: 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: black;
+    z-index: 999;
+">
+    🌤️ Ładowanie pogody...
+</div>
+<!-- Przełącznik motywu -->
+<div class="theme-switcher" style="position: fixed; top: 20px; right: 20px; z-index: 999;">
+    <button id="themeToggle">🌙 / ☀️</button>
+</div>
+
     <main class="profile-section">
         <div id="profile-container">
-            <img src="malpa1.jpg" alt="Profilowe zdjęcie" class="profile-image">  
+            <img src="pies.jpg" alt="Profilowe zdjęcie" class="profile-image">  
             <h1 class="profile-name">Wolodia Radevych</h1> 
+            <h2 class="typewriter">
+    <span id="typewriter-text"></span><span class="cursor">|</span>
+</h2>
+
         </div>
     </main>
 
-    <nav class="navigation">
-        <a href="o-mnie.html" class="nav-button">O mnie</a>
-        <a href="kontak.html" class="contact-button">Kontakt</a>
-    </nav>
+<nav class="navigation">
+    <a href="o-mnie.html" class="nav-button">O mnie</a>
+    <a href="kontak.html" class="nav-button">Kontakt</a>
+    <a href="projekt.html" class="nav-button">Projekty</a>
+    <a href="umiejetnosci.html" class="nav-button">Umiejętności</a>
+</nav>
+
 
     <!--  Stopka z zegarem i licznikiem -->
     <footer class="footer">
@@ -30,12 +57,14 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     //  Efekt hover na przycisku
-    const button = document.querySelector(".nav-button");
-    button.addEventListener('mouseenter', function() {
-        this.style.backgroundColor = "#009999";
-    });
-    button.addEventListener('mouseleave', function() {
-        this.style.backgroundColor = "";
+    const buttons = document.querySelectorAll(".nav-button, .contact-button, .projects-button");
+    buttons.forEach(button => {
+        button.addEventListener('mouseenter', function() {
+            this.style.backgroundColor = "#009999";
+        });
+        button.addEventListener('mouseleave', function() {
+            this.style.backgroundColor = "";
+        });
     });
 
     //  Zegar w stopce
@@ -57,12 +86,11 @@ document.addEventListener('DOMContentLoaded', function() {
     updateClock();
     setInterval(updateClock, 1000);
 
-    // 🔹 Licznik odwiedzin w localStorage
+    // Licznik odwiedzin w localStorage
     const visitCounter = document.querySelector('.visit-counter');
     let visitCount = localStorage.getItem('visitCount');
 
     if (visitCount === null) {
-        // Pierwsza wizyta
         visitCount = 1;
         visitCounter.textContent = "Witaj po raz pierwszy!";
     } else {
@@ -70,9 +98,125 @@ document.addEventListener('DOMContentLoaded', function() {
         visitCounter.textContent = `To jest Twoja ${visitCount} wizyta na tej stronie!`;
     }
 
-    // Zapisz nową wartość w localStorage
     localStorage.setItem('visitCount', visitCount);
+
+    // === PRZYCISK PRZEWIJANIA DO GÓRY ===
+    const button = document.createElement('button');
+    button.id = 'scrollToTopBtn';
+    button.textContent = "⬆️";
+    document.body.appendChild(button);
+
+    window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 300) {
+            button.style.display = 'block';
+        } else {
+            button.style.display = 'none';
+        }
+    });
+
+    button.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
 });
+
+// ---- MOTYW CIEMNY/JASNY ----
+const themeToggle = document.getElementById('themeToggle');
+
+// Sprawdzenie zapisanej wartości w localStorage
+if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+}
+
+themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    // Zapis w localStorage
+    if (document.body.classList.contains('dark-mode')) {
+        localStorage.setItem('theme', 'dark');
+    } else {
+        localStorage.setItem('theme', 'light');
+    }
+});
+
+// ---- TYPEWRITER ----
+const texts = ['Developer', 'Designer', 'Creator'];
+const typewriterElement = document.getElementById('typewriter-text');
+
+let textIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+
+function type() {
+    const currentText = texts[textIndex];
+    
+    if (!isDeleting) {
+        // Dodawanie liter
+        typewriterElement.textContent += currentText[charIndex];
+        charIndex++;
+
+        if (charIndex === currentText.length) {
+            // Tekst napisany, poczekaj 2 sekundy
+            isDeleting = true;
+            setTimeout(type, 2000);
+        } else {
+            setTimeout(type, 150); // prędkość pisania
+        }
+    } else {
+        // Usuwanie liter
+        typewriterElement.textContent = currentText.slice(0, charIndex - 1);
+        charIndex--;
+
+        if (charIndex === 0) {
+            // Przejście do następnego tekstu
+            isDeleting = false;
+            textIndex = (textIndex + 1) % texts.length;
+            setTimeout(type, 200);
+        } else {
+            setTimeout(type, 100); // prędkość usuwania
+        }
+    }
+}
+
+// Uruchomienie efektu
+type();
+
+
+// ---- WIDGET POGODOWY ----
+const weatherWidget = document.getElementById('weather-widget');
+
+// Funkcja do wyboru emoji na podstawie warunków pogodowych
+function getWeatherEmoji(condition) {
+    condition = condition.toLowerCase();
+    if (condition.includes('sun') || condition.includes('clear')) return '☀️';
+    if (condition.includes('partly')) return '🌤️';
+    if (condition.includes('cloud')) return '☁️';
+    if (condition.includes('rain') || condition.includes('drizzle')) return '🌧️';
+    if (condition.includes('thunder')) return '⛈️';
+    if (condition.includes('snow')) return '❄️';
+    return '🌈'; // domyślne
+}
+
+// Fetch z wttr.in
+fetch('https://wttr.in/?format=%l:+%C+%t')
+    .then(response => response.text())
+    .then(data => {
+        // Przykład odpowiedzi: "Warsaw: Partly cloudy +15°C"
+        const parts = data.split(':');
+        if (parts.length > 1) {
+            const location = parts[0].trim();
+            const rest = parts[1].trim();
+            const emoji = getWeatherEmoji(rest);
+            weatherWidget.textContent = `${emoji} ${location} ${rest}`;
+        } else {
+            weatherWidget.textContent = data;
+        }
+    })
+    .catch(error => {
+        console.error('Błąd pobierania pogody:', error);
+        weatherWidget.textContent = '❌ Pogoda niedostępna';
+    });
+
+
 </script>
 </body>
 </html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Moje Projekty</title>
+</head>
+<body>
+
+    <h1 class="projects-title">Moje Projekty</h1>
+
+    <!-- 🔹 Nawigacja -->
+    <nav class="navigation">
+        <a href="index.html" class="nav-button">Strona główna</a>
+    </nav>
+
+    <!-- 🔹 Filtry -->
+    <div class="filter-buttons">
+        <button class="filter-btn" data-filter="all">Wszystkie</button>
+        <button class="filter-btn" data-filter="web">Web</button>
+        <button class="filter-btn" data-filter="mobile">Mobile</button>
+        <button class="filter-btn" data-filter="design">Design</button>
+    </div>
+
+    <!-- 🔹 Galeria projektów -->
+    <section class="projects-gallery">
+        <div class="project-card" data-category="web">
+            <h3>Projekt 1 – Strona WWW</h3>
+            <p>
+Stworzona w pełni responsywna strona internetowa, która prezentuje portfolio i działalność użytkownika. Strona zawiera:
+Responsywny layout dopasowujący się do wszystkich urządzeń (desktop, tablet, mobile)
+Sekcję “O mnie” z animacjami i efektem TypeWriter
+Galerię projektów z filtrowaniem po kategoriach
+Formularz kontaktowy z walidacją oraz potwierdzeniem wysłania</p>
+        </div>
+        <div class="project-card" data-category="mobile">
+            <h3>Projekt 2 – Aplikacja mobilna</h3>
+            <p>
+Stworzona aplikacja mobilna na Android/iOS do zarządzania codziennymi zadaniami i notatkami. Funkcje obejmują:
+Dodawanie, edytowanie i zadań
+Kategoryzowanie priorytetów i ustawianie przypomnień
+Synchronizacja lokalna i opcjonalnie chmura do backupu
+Responsywny interfejs zgodny z Material Design
+            </p>
+        </div>
+        <div class="project-card" data-category="design">
+            <h3>Projekt 3 – Projekt graficzny</h3>
+            <p>
+Seria projektów graficznych obejmująca:
+Tworzenie logo, banerów i materiałów promocyjnych
+Projektowanie layoutów stron internetowych i aplikacji mobilnych
+Wykorzystanie programów takich jak Adobe Photoshop i Illustrator
+Dbałość o spójność wizualną, kolory i typografię
+Tworzenie mockupów i prototypów UX/UI
+            </p>
+        </div>
+        <div class="project-card" data-category="web">
+            <h3>Projekt 4 – Backend API</h3>
+            <p>
+Backendowa aplikacja serwerowa realizująca logikę biznesową i udostępniająca dane przez API. Funkcje obejmują:
+RESTful API umożliwiające pobieranie, dodawanie i aktualizowanie danych
+Bezpieczeństwo i autoryzacja użytkowników
+Integracja z bazą danych (np. MySQL lub MongoDB)
+Dokumentacja API i przykłady użycia
+Skalowalność i przygotowanie do obsługi większej liczby żądań
+            </p>
+        </div>
+        <div class="project-card" data-category="mobile">
+            <h3>Projekt 5 – App Android</h3>
+            <p>
+                Opis: Stworzona aplikacja mobilna na system Android,
+która umożliwia użytkownikom zarządzanie codziennymi zadaniami i notatkami w intuicyjny sposób. Aplikacja posiada:
+Listę zadań z możliwością dodawania, edytowania i usuwania elementów
+Kategorię priorytetów oraz możliwość ustawienia przypomnień
+</p>
+        </div>
+    </section>
+
+    <!-- 🔹 Skrypt filtrów i scroll-to-top -->
+    <script>
+        // --- FILTROWANIE PROJEKTÓW ---
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const projects = document.querySelectorAll('.project-card');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const category = button.getAttribute('data-filter');
+                projects.forEach(project => {
+                    const projectCategory = project.getAttribute('data-category');
+                    if (category === "all" || category === projectCategory) {
+                        project.style.display = "block";
+                    } else {
+                        project.style.display = "none";
+                    }
+                });
+            });
+        });
+
+        // --- PRZYCISK POWROTU DO GÓRY ---
+        const scrollBtn = document.createElement('button');
+        scrollBtn.id = 'scrollToTopBtn';
+        scrollBtn.textContent = "⬆️";
+        document.body.appendChild(scrollBtn);
+
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                scrollBtn.style.display = 'block';
+            } else {
+                scrollBtn.style.display = 'none';
+            }
+        });
+
+        scrollBtn.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

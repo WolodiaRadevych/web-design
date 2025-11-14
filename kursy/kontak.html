@@ -7,6 +7,7 @@
     <title>Contact Page</title>
 </head>
 <body>
+
     <main class="profile-section2">
         <div id="profile-container2">
             <img src="malpa1.jpg" alt="Profilowe zdjęcie" class="profile-image2">  
@@ -17,29 +18,90 @@
     <nav class="navigation2">
         <a href="index.html" class="nav-button2">Strona główna</a>
     </nav>
-     <aside class="kontakty">
-         <div class="kontakty-moje">
-            <p>
-                📧 Email: wolodia.radevych@poczta.fm
-                <br>
-                📞 Telefon: +48 518 895 043 
-                <br>
-                📍 Lokalizacja: Rzeszów, Poland
-                <br>
-                🌐 Strona www: stronapróbna.www
-                <br>   
-                📸 Instagram: vovayora
-                <br>
-                📘 Facebook: Wołodia Radevych
-                <br>
-                🐱 GitHub: https://github.com/WolodiaRadevych
-                <br>
-                💼 LinkedIn: https://www.apple.com/
-                <br>
-                🐦 Twitter: WolodiaRadevych228
-            </p>
-         </div>
 
-     </aside>
+    <!-- FORMULARZ KONTAKTOWY -->
+    <div class="contact-form-container">
+        <form id="contactForm" class="contact-form">
+
+            <label>Imię:</label>
+            <input type="text" id="name">
+            <div id="nameError" class="error"></div>
+
+            <label>Email:</label>
+            <input type="text" id="email">
+            <div id="emailError" class="error"></div>
+
+            <label>Wiadomość:</label>
+            <textarea id="message"></textarea>
+            <div id="messageError" class="error"></div>
+
+            <button type="submit">Wyślij</button>
+        </form>
+    </div>
+
+
+    <!-- SKRYPT WALIDACJI -->
+    <script>
+        const form = document.getElementById('contactForm');
+            // === PRZYCISK PRZEWIJANIA DO GÓRY ===
+
+    const button = document.createElement('button');
+    button.id = 'scrollToTopBtn';
+    button.textContent = "⬆️";
+    document.body.appendChild(button);
+
+    // Pokazywanie / ukrywanie przycisku
+    window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 300) {
+            button.style.display = 'block';
+        } else {
+            button.style.display = 'none';
+        }
+    });
+
+    // Płynne przewijanie do góry
+    button.addEventListener('click', function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+
+            document.getElementById('nameError').textContent = "";
+            document.getElementById('emailError').textContent = "";
+            document.getElementById('messageError').textContent = "";
+
+            let valid = true;
+
+            if (name === "") {
+                document.getElementById('nameError').textContent = "Imię jest wymagane.";
+                valid = false;
+            }
+
+            if (!email.includes("@")) {
+                document.getElementById('emailError').textContent = "Email musi zawierać @.";
+                valid = false;
+            }
+
+            if (message === "") {
+                document.getElementById('messageError').textContent = "Wiadomość jest wymagana.";
+                valid = false;
+            }
+
+            if (valid) {
+                alert("Formularz wysłany pomyślnie!");
+                form.reset();
+            }
+        });
+        
+    </script>
+
 </body>
 </html>
